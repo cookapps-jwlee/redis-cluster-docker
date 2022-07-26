@@ -27,14 +27,27 @@ require-redis:
 	redis
 
 require-redis-cluster-mode:
-	docker run --rm -d \
+	docker run \
+	--rm \
+	--detach \
 	--name redis-${shell hostname} \
 	--network host \
 	-v /data/log/redis:/data/log/redis \
 	-v /data/lib/redis:/data/lib/redis \
 	${REDIS_CLUSTER_NODE_RUNTIME_TAG} \
-	redis-server /data/conf/redis/redis.conf \
-	--cluster-config-file nodes-${shell hostname}.conf
+	redis-server \
+	--dir /data/lib/redis \
+	--loglevel notice \
+	--cluster-enabled yes \
+	--cluster-config-file /data/log/redis/nodes-${shell hostname}.conf \
+	--cluster-node-timeout 3000 \
+	--appendonly yes \
+	--requirepass "pa35@s7s^wo^rd#s" \
+	--slowlog-log-slower-than 10000 \
+	--protected-mode no \
+	--bind "* -::*" \
+	--maxmemory 4gb \
+	--maxmemory-policy noeviction
 
 
 # 클러스터 모드 레디스 접속 예시
