@@ -1,6 +1,6 @@
 FROM redis
 
-RUN mkdir -p /data/conf/redis /data/log/redis /redis/data /redis/log
+RUN mkdir -p /data/conf/redis /data/lib/redis /data/log/redis
 
 COPY redis.conf /data/conf/redis/redis.conf
 

@@ -28,15 +28,13 @@ require-redis:
 	redis
 
 require-redis-cluster-mode:
-	docker run \
-	--rm \
-	--detach \
+	docker run --rm \
 	--name redis-${shell hostname} \
 	--network host \
 	-v /data/log/redis:/data/log/redis \
-	-v /data/lib/redis:/redis \
+	-v /data/lib/redis:/data/lib/redis \
 	${REDIS_CLUSTER_NODE_RUNTIME_TAG} \
-	redis-server
+	redis-server /data/conf/redis/redis.conf
 
 
 # 클러스터 모드 레디스 접속 예시
