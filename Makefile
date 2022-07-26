@@ -1,6 +1,7 @@
 REDIS_CLUSTER_NODE_RUNTIME_TAG='chirichidi/redis-cluster-node'
-MY_IP=$(shell dig +short myip.opendns.com @resolver1.opendns.com)
+REDIS_HOST=$(shell dig +short myip.opendns.com @resolver1.opendns.com)
 REDIS_PASSWORD='PLEASE INPUT'
+REDIS_PORT=6379
 
 update: \
 	update-code-only 
@@ -48,7 +49,10 @@ require-redis-cluster-mode:
 	--bind "* -::*" \
 	--maxmemory 4gb \
 	--maxmemory-policy noeviction \
-	--cluster-announce-ip ${MY_IP}
+	--cluster-announce-ip ${REDIS_HOST}
+
+benchmark:
+	docker exec -t --rm ${REDIS_CLUSTER_NODE_RUNTIME_TAG} redis-benchmark -a ${REDIS_PASSWORD} -h ${REDIS_HOST} -p ${REDIS_PORT}
 
 
 ## 클러스터 모드 레디스 접속 예시
