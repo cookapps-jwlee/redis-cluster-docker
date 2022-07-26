@@ -29,7 +29,6 @@ require-redis:
 require-redis-cluster-mode:
 	docker run \
 	--rm \
-	--detach \
 	--name redis-${shell hostname} \
 	--network host \
 	-v /data/log/redis:/data/log/redis \
