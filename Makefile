@@ -1,14 +1,13 @@
 REDIS_CLUSTER_NODE_RUNTIME_TAG='chirichidi/redis-cluster-node'
 
-update: 
-	update-code-only
-	build
 
+update: \
+	update-code-only 
+	build
 
 update-code-only: 
 	git reset --hard
 	git pull
-
 
 build: \
 	require-redis-cluster-node-build
@@ -28,13 +27,14 @@ require-redis:
 	redis
 
 require-redis-cluster-mode:
-	docker run --rm \
+	docker run --rm -d \
 	--name redis-${shell hostname} \
 	--network host \
 	-v /data/log/redis:/data/log/redis \
 	-v /data/lib/redis:/data/lib/redis \
 	${REDIS_CLUSTER_NODE_RUNTIME_TAG} \
-	redis-server /data/conf/redis/redis.conf
+	redis-server /data/conf/redis/redis.conf \
+	--cluster-config-file nodes-${shell hostname}.conf
 
 
 # 클러스터 모드 레디스 접속 예시
