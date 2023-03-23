@@ -1,5 +1,6 @@
 REDIS_CLUSTER_NODE_RUNTIME_TAG='chirichidi/redis-cluster-node'
 REDIS_HOST=$(shell dig +short myip.opendns.com @resolver1.opendns.com)
+MY_IP=${shell ip addr | grep eth0 | grep inet | cut -d ' ' -f 6 | cut -d/ -f 1}
 REDIS_PASSWORD='PLEASE INPUT'
 REDIS_PORT=6379
 
